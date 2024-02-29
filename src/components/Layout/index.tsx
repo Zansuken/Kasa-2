@@ -36,7 +36,7 @@ const Layout: FC<PropsWithChildren> = memo(({ children }) => {
     <Root>
       <MainContainer $isMobile={isMobile}>
         <Header />
-        <Main>{children}</Main>
+        <Main $isMobile={isMobile}>{children}</Main>
       </MainContainer>
       <Footer />
     </Root>

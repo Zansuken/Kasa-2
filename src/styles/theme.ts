@@ -3,6 +3,8 @@ export type Theme = typeof theme;
 export type StyledProps = {
   theme?: Theme;
   $isMobile?: boolean;
+  $sharedStyles?: Record<string, string | number>;
+  [key: string]: unknown;
 };
 
 const theme = {
