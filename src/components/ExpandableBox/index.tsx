@@ -25,7 +25,7 @@ const Root = styled.div<StyledProps & { $labelContainerHeightRef: number }>(
       position: "absolute",
       width: "calc(100% + 16px)",
       height: $labelContainerHeightRef,
-      background: palette.grey.light,
+      background: palette.grey.lighter,
       top: 0,
       left: -16,
       zIndex: -1,
@@ -71,7 +71,7 @@ const Content = styled.div<StyledProps>(
     $fullWidth,
     $isExpanded,
   }) => ({
-    backgroundColor: palette.grey.light,
+    backgroundColor: palette.grey.lighter,
     position: "absolute",
     opacity: $isExpanded ? 1 : 0,
     pointerEvents: "none",

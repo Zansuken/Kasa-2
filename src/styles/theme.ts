@@ -3,7 +3,6 @@ export type Theme = typeof theme;
 export type StyledProps = {
   theme?: Theme;
   $isMobile?: boolean;
-  $sharedStyles?: Record<string, string | number>;
   [key: string]: unknown;
 };
 
@@ -11,7 +10,8 @@ const theme = {
   palette: {
     primary: "#FF6060",
     grey: {
-      light: "rgb(246, 246, 246, 0.45)",
+      lighter: "rgb(246, 246, 246, 0.45)",
+      light: "#F6F6F6",
       medium: "#E3E3E3",
       dark: "#C4C4C4",
     },

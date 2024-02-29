@@ -1,6 +1,8 @@
 import { FC } from "react";
 import styled, { keyframes } from "styled-components";
 import { StyledProps } from "../../styles/theme";
+import { MaxHeight } from "../Banner";
+import { useViewport } from "../../hooks/useViewport";
 
 const loadingAnimation = keyframes`
     0% {
@@ -33,10 +35,20 @@ const AvatarSkeleton = styled.div<StyledProps & { $height: number }>`
 `;
 
 const ImageSkeleton = styled.div<
-  StyledProps & { $height: number; $width: number; $borderRadius: number }
+  StyledProps & {
+    $height: number;
+    $width: number;
+    $borderRadius: number;
+    $maxHeight?: MaxHeight;
+    $isMobile: boolean;
+  }
 >`
   width: ${({ $width }) => `${($width * 100) / 12}%`};
   height: ${({ $height }) => $height}px;
+  ${({ $maxHeight, $isMobile }) =>
+    $maxHeight
+      ? `max-height: ${$isMobile ? $maxHeight.mobile : $maxHeight.desktop}px;`
+      : ""}
   background-color: rgba(0, 0, 0, 0.1);
   animation: ${loadingAnimation} 1s infinite;
   border-radius: ${({ $borderRadius }) => $borderRadius};
@@ -48,6 +60,10 @@ type Props = {
    */
   variant: "text" | "avatar" | "image";
   height?: number;
+  /**
+   * Only for image variant
+   */
+  maxHeight?: MaxHeight;
   /**
    * Width of the skeleton
    *
@@ -74,7 +90,10 @@ const Skeleton: FC<Props> = ({
   height = 16,
   width = 12,
   borderRadius = 0,
+  maxHeight,
 }) => {
+  const { isMobile } = useViewport();
+
   if (variant === "avatar") {
     return <AvatarSkeleton $height={height} />;
   }
@@ -85,6 +104,8 @@ const Skeleton: FC<Props> = ({
         $height={height}
         $width={width}
         $borderRadius={borderRadius}
+        $maxHeight={maxHeight}
+        $isMobile={isMobile}
       />
     );
   }

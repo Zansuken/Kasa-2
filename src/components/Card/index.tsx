@@ -70,9 +70,16 @@ type Props = {
   isLoaded: boolean;
   title: string;
   isClickable?: boolean;
+  onClick?: () => void;
 };
 
-const Card: FC<Props> = ({ src, title, isLoaded, isClickable }) => {
+const Card: FC<Props> = ({
+  src,
+  title,
+  isLoaded,
+  isClickable,
+  onClick = () => {},
+}) => {
   const { isMobile } = useViewport();
 
   if (!isLoaded) {
@@ -85,8 +92,9 @@ const Card: FC<Props> = ({ src, title, isLoaded, isClickable }) => {
       </Root>
     );
   }
+
   return (
-    <Root $isMobile={isMobile} $isClickable={isClickable}>
+    <Root $isMobile={isMobile} $isClickable={isClickable} onClick={onClick}>
       <Cover $isMobile={isMobile} src={src} alt={title} />
       <TitleContainer $isMobile={isMobile}>
         <Title $isMobile={isMobile}>{title}</Title>
