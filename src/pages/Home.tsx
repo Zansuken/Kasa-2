@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import Layout from "../components/Layout";
 import Banner from "../components/Banner";
 import { requests } from "../api/requests";
@@ -9,6 +9,7 @@ import { StyledProps } from "../styles/theme";
 import { useViewport } from "../hooks/useViewport";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "../router/routes";
+import { useFetchData } from "../hooks/useFetchData";
 
 const bannerImg = "/home_banner.png";
 
@@ -37,25 +38,9 @@ const Home: FC = () => {
   const { isMobile } = useViewport();
   const navigate = useNavigate();
 
-  const [housing, setHousing] = useState<Housing[]>([]);
-  const [isHousingFetching, setIsHousingFetching] = useState<null | boolean>(
-    null
+  const { data: housing, loading: isHousingFetching } = useFetchData<Housing[]>(
+    requests.getHousing
   );
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        setIsHousingFetching(true);
-        const res = await requests.getHousing();
-        setHousing(res);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setIsHousingFetching(false);
-      }
-    }
-    fetchData();
-  }, []);
 
   const cardsPlaceholder = Array.from({ length: 6 }, () => ({
     title: "",
@@ -84,7 +69,7 @@ const Home: FC = () => {
                 isLoaded={false}
               />
             ))
-          : housing.map((h) => (
+          : housing?.map((h) => (
               <Card
                 key={h.id}
                 title={h.title}
