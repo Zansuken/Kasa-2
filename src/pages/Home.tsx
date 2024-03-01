@@ -25,6 +25,7 @@ const CardsContainer = styled.ul<StyledProps>(
       ? `0 0 ${spacing(6)}px 0`
       : `${spacing(14)}px ${spacing(13)}px`,
     marginTop: $isMobile ? spacing(6) : spacing(11),
+    marginBottom: $isMobile ? spacing(6) : spacing(11),
     listStyle: "none",
     width: "100%",
     backgroundColor: $isMobile ? "transparent" : palette.grey.light,
