@@ -4,7 +4,6 @@ import { useFetchData } from "../hooks/useFetchData";
 import { requests } from "../api/requests";
 import { useParams } from "react-router-dom";
 import { HousingDetails as HousingDetailsType } from "../types";
-import Banner from "../components/Banner";
 import { useViewport } from "../hooks/useViewport";
 import styled from "styled-components";
 import { StyledProps } from "../styles/theme";
@@ -12,6 +11,7 @@ import Tag from "../components/Tag";
 import Avatar from "../components/Avatar";
 import Rating from "../components/Rating";
 import ExpandableBox from "../components/ExpandableBox";
+import Carousel from "../components/Carousel";
 
 const TopSection = styled.div<StyledProps>(
   ({ theme: { spacing }, $isMobile }) => ({
@@ -115,7 +115,7 @@ const HousingDetails: FC = () => {
 
   return (
     <Layout>
-      <Banner isLoaded={!loading} src={housing?.cover ?? ""} />
+      <Carousel pictures={housing?.pictures ?? []} isLoaded={!loading} />
       <TopSection $isMobile={isMobile}>
         <TopSectionLeft $isMobile={isMobile}>
           <h1>{housing?.title}</h1>
