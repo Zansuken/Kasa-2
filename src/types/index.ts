@@ -19,3 +19,9 @@ export type HousingDetails = {
   equipments: string[];
   tags: string[];
 };
+
+export type AboutItem = {
+  id: string;
+  title: string;
+  content: string;
+};

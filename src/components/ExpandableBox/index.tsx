@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, ReactNode, useRef, useState } from "react";
+import { FC, PropsWithChildren, ReactNode, useState } from "react";
 import { useViewport } from "../../hooks/useViewport";
 import styled from "styled-components";
 import { StyledProps } from "../../styles/theme";
@@ -6,33 +6,14 @@ import { StyledProps } from "../../styles/theme";
 const arrowDesktopIcon = "/arrow_desktop.png";
 const arrowMobileIcon = "/arrow_mobile.png";
 
-const Root = styled.div<StyledProps & { $labelContainerHeightRef: number }>(
-  ({
-    theme: { palette, radius },
-    $fullWidth,
-    $isExpanded,
-    $labelContainerHeightRef,
-  }) => ({
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    flex: 1,
-    width: $fullWidth ? "100%" : "auto",
-    height: "fit-content",
-    position: "relative",
-    "&::before": {
-      content: '""',
-      position: "absolute",
-      width: "calc(100% + 16px)",
-      height: $labelContainerHeightRef,
-      background: palette.grey.lighter,
-      top: 0,
-      left: -16,
-      zIndex: -1,
-      borderRadius: $isExpanded ? `${radius.sm} ${radius.sm} 0 0` : radius.sm,
-    },
-  })
-);
+const Root = styled.div<StyledProps>(({ $fullWidth }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  width: $fullWidth ? "100%" : "auto",
+  height: "fit-content",
+  position: "relative",
+}));
 
 const LabelContainer = styled.div<StyledProps>(
   ({ theme: { palette, spacing, radius }, $isMobile, $fullWidth }) => ({
@@ -65,27 +46,19 @@ const ArrowIcon = styled.img<StyledProps>(
 );
 
 const Content = styled.div<StyledProps>(
-  ({
-    theme: { palette, spacing, radius },
-    $isMobile,
-    $fullWidth,
-    $isExpanded,
-  }) => ({
+  ({ theme: { palette, spacing, radius }, $isMobile, $isExpanded }) => ({
     backgroundColor: palette.grey.lighter,
-    position: "absolute",
-    opacity: $isExpanded ? 1 : 0,
-    pointerEvents: "none",
-    top: $isMobile ? spacing(7) : spacing(14),
-    left: 0,
-    padding: $isMobile ? spacing(4) : spacing(6),
-    boxSizing: "border-box",
+    paddingLeft: $isMobile ? spacing(4) : spacing(6),
+    paddingRight: $isMobile ? spacing(4) : spacing(6),
+    paddingTop: $isExpanded ? ($isMobile ? spacing(4) : spacing(6)) : 0,
+    paddingBottom: $isExpanded ? ($isMobile ? spacing(4) : spacing(6)) : 0,
     borderRadius: `0 0 ${radius.sm} ${radius.sm}`,
-    height: $isExpanded ? "fit-content" : 0,
-    width: $fullWidth ? "100%" : "auto",
-    fontSize: $isMobile ? 12 : 18,
-    transform: $isExpanded ? "translateY(0)" : "translateY(-20%)",
-    transition: "opacity 0.3s ease-in-out, transform 0.3s ease-in-out",
-    zIndex: -1,
+    height: "100%",
+    maxHeight: $isExpanded ? "100%" : 0,
+    overflow: "hidden",
+    boxSizing: "border-box",
+    transition:
+      "max-height 0.3s ease-in-out, padding-top 0.3s ease-in-out, padding-bottom 0.3s ease-in-out",
   })
 );
 
@@ -104,28 +77,18 @@ const ExpandableBox: FC<PropsWithChildren & Props> = ({
 
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const labelContainerRef = useRef<HTMLDivElement>(null);
-
   const toggleExpanded = () => setIsExpanded((prev) => !prev);
 
   const arrowIcon = isMobile ? arrowMobileIcon : arrowDesktopIcon;
 
-  const labelContainerHeight = labelContainerRef.current?.clientHeight;
-
-  const sharedProps = {
-    $isMobile: isMobile,
-    $isExpanded: isExpanded,
-    $fullWidth: fullWidth,
-  };
-
   return (
-    <Root $labelContainerHeightRef={labelContainerHeight ?? 0} {...sharedProps}>
+    <Root $fullWidth={fullWidth}>
       <LabelContainer
-        {...sharedProps}
+        $isMobile={isMobile}
+        $fullWidth={fullWidth}
         onClick={toggleExpanded}
-        ref={labelContainerRef}
       >
-        <Label {...sharedProps}>{label}</Label>
+        <Label $isMobile={isMobile}>{label}</Label>
         <ArrowIcon
           src={arrowIcon}
           $isMobile={isMobile}
@@ -133,7 +96,9 @@ const ExpandableBox: FC<PropsWithChildren & Props> = ({
           alt={isExpanded ? "collapse" : "expand"}
         />
       </LabelContainer>
-      <Content {...sharedProps}>{children}</Content>
+      <Content $isMobile={isMobile} $isExpanded={isExpanded}>
+        {children}
+      </Content>
     </Root>
   );
 };

@@ -44,7 +44,7 @@ const TextContainer = styled.div<StyledProps>(
 );
 
 const Image = styled.img<StyledProps & { $maxHeight?: MaxHeight }>(
-  ({ theme: { radius }, $isMobile, $maxHeight }) => ({
+  ({ theme: { radius }, $isMobile, $maxHeight, $addDarkFilter }) => ({
     width: "100%",
     height: $maxHeight ? "100%" : $isMobile ? 255 : 415,
     maxHeight: $maxHeight
@@ -56,6 +56,7 @@ const Image = styled.img<StyledProps & { $maxHeight?: MaxHeight }>(
     objectFit: "cover",
     objectPosition: "center",
     borderRadius: $isMobile ? radius.md : radius.lg,
+    filter: $addDarkFilter ? "brightness(0.7)" : "unset",
   })
 );
 
@@ -64,9 +65,16 @@ type Props = {
   isLoaded: boolean;
   maxHeight?: MaxHeight;
   text?: string;
+  addDarkFilter?: boolean;
 };
 
-const Banner: FC<Props> = ({ src, isLoaded, maxHeight, text }) => {
+const Banner: FC<Props> = ({
+  src,
+  isLoaded,
+  maxHeight,
+  text,
+  addDarkFilter,
+}) => {
   const { isMobile } = useViewport();
   const theme = useTheme();
 
@@ -102,7 +110,13 @@ const Banner: FC<Props> = ({ src, isLoaded, maxHeight, text }) => {
   }
 
   return (
-    <Image src={src} $isMobile={isMobile} $maxHeight={maxHeight} alt="banner" />
+    <Image
+      src={src}
+      $isMobile={isMobile}
+      $maxHeight={maxHeight}
+      $addDarkFilter={addDarkFilter}
+      alt="banner"
+    />
   );
 };
 

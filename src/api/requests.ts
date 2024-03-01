@@ -1,4 +1,4 @@
-import { Housing } from "../types";
+import { AboutItem, Housing } from "../types";
 import { Endpoints } from "./endpoints";
 import axios from "axios";
 
@@ -13,4 +13,6 @@ export const requests = {
     client
       .get(Endpoints.GET_HOUSING_DETAIL.replace(":id", id))
       .then((res) => res.data),
+  about: async (): Promise<AboutItem[]> =>
+    client.get(Endpoints.ABOUT).then((res) => res.data),
 };
