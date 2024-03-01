@@ -1,4 +1,4 @@
-import { AboutItem, Housing } from "../types";
+import { AboutItem, Housing, HousingDetails } from "../types";
 import { Endpoints } from "./endpoints";
 import axios from "axios";
 
@@ -9,7 +9,7 @@ export const client = axios.create({
 export const requests = {
   getHousing: async (): Promise<Housing[]> =>
     client.get(Endpoints.GET_HOUSING).then((res) => res.data),
-  getHousingDetail: async (id: string) =>
+  getHousingDetail: async (id: string): Promise<HousingDetails> =>
     client
       .get(Endpoints.GET_HOUSING_DETAIL.replace(":id", id))
       .then((res) => res.data),

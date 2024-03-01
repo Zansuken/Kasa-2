@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { StyledProps } from "../../styles/theme";
-import { devices } from "../../constants/viewport";
 import { FC } from "react";
 import { useViewport } from "../../hooks/useViewport";
 
@@ -13,28 +12,25 @@ type Props = {
   value: number;
 };
 
-const Root = styled.div<StyledProps>(
-  ({ theme: { spacing }, $currentDevice }) => ({
-    display: "flex",
-    width: "fit-content",
-    gap: $currentDevice === devices.MOBILE ? spacing(1) / 2 : spacing(1),
-    alignItems: "center",
-    justifyContent: "center",
-    padding: spacing(1),
-  })
-);
+const Root = styled.div<StyledProps>(({ theme: { spacing }, $isMobile }) => ({
+  display: "flex",
+  width: "fit-content",
+  gap: $isMobile ? spacing(1) / 2 : spacing(1),
+  alignItems: "center",
+  justifyContent: "center",
+  padding: spacing(1),
+}));
 
-const StarContainer = styled.div<StyledProps>(({ $currentDevice }) => ({
-  width: $currentDevice === devices.MOBILE ? 18 : 36,
-  height: $currentDevice === devices.MOBILE ? 18 : 36,
+const StarContainer = styled.div<StyledProps>(({ $isMobile }) => ({
+  width: $isMobile ? 18 : 36,
+  height: $isMobile ? 18 : 36,
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
 }));
 
 const Rating: FC<Props> = ({ value = 0 }) => {
-  const { currentDevice } = useViewport();
-  const isMobile = currentDevice === devices.MOBILE;
+  const { isMobile } = useViewport();
 
   const stars = Array.from({ length: 5 }, (_, i) => {
     const isPlain = i < value;
@@ -43,13 +39,13 @@ const Rating: FC<Props> = ({ value = 0 }) => {
     const src = isPlain ? plainStar : emptyStar;
 
     return (
-      <StarContainer $currentDevice={currentDevice}>
+      <StarContainer $isMobile={isMobile} key={`star-${i}`}>
         <img src={src} alt="star" />
       </StarContainer>
     );
   });
 
-  return <Root $currentDevice={currentDevice}>{stars}</Root>;
+  return <Root $isMobile={isMobile}>{stars}</Root>;
 };
 
 export default Rating;

@@ -54,6 +54,7 @@ const Content = styled.div<StyledProps>(
     paddingBottom: $isExpanded ? ($isMobile ? spacing(4) : spacing(6)) : 0,
     borderRadius: `0 0 ${radius.sm} ${radius.sm}`,
     height: "100%",
+    width: "100%",
     maxHeight: $isExpanded ? "100%" : 0,
     overflow: "hidden",
     boxSizing: "border-box",
