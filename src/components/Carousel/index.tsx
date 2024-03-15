@@ -1,7 +1,8 @@
-import { FC, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { StyledProps } from "../../styles/theme";
 import { useViewport } from "../../hooks/useViewport";
+import Skeleton from "../Skeleton";
 
 const arrowDesktopIcon = "/arrow_carousel_desktop.png";
 const arrowMobileIcon = "/arrow_carousel_mobile.png";
@@ -42,6 +43,7 @@ const Button = styled.button<StyledProps & { $arrowDirection: string }>(
     },
     "&:focus": {
       outline: "none",
+      backgroundColor: "rgba(255, 255, 255, 0.7)",
     },
     [$arrowDirection]: 0,
     "& img": {
@@ -81,34 +83,65 @@ const Carousel: FC<Props> = ({ pictures, isLoaded }) => {
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % pictures.length);
-  };
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + pictures.length) % pictures.length);
-  };
+  }, [setCurrentSlide, pictures.length]);
 
-  if (!isLoaded) {
-    return <div>Loading...</div>;
-  }
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev - 1 + pictures.length) % pictures.length);
+  }, [setCurrentSlide, pictures.length]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        prevSlide();
+      }
+      if (e.key === "ArrowRight") {
+        nextSlide();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [nextSlide, prevSlide]);
 
   return (
     <Root $isMobile={isMobile}>
-      <Button $isMobile={isMobile} $arrowDirection="left" onClick={prevSlide}>
-        <img src={isMobile ? arrowMobileIcon : arrowDesktopIcon} alt="left" />
-      </Button>
-      <Picture
-        $isMobile={isMobile}
-        src={pictures[currentSlide]}
-        alt="carousel"
-        loading="lazy"
-      />
-      <CurrentSlide $isMobile={isMobile}>
-        {currentSlide + 1} / {pictures.length}
-      </CurrentSlide>
-      <Button $isMobile={isMobile} $arrowDirection="right" onClick={nextSlide}>
-        <img src={isMobile ? arrowMobileIcon : arrowDesktopIcon} alt="right" />
-      </Button>
+      {isLoaded ? (
+        <>
+          <Button
+            $isMobile={isMobile}
+            $arrowDirection="left"
+            onClick={prevSlide}
+          >
+            <img
+              src={isMobile ? arrowMobileIcon : arrowDesktopIcon}
+              alt="left"
+            />
+          </Button>
+          <Picture
+            $isMobile={isMobile}
+            src={pictures[currentSlide]}
+            alt="carousel"
+            loading="lazy"
+          />
+          <CurrentSlide $isMobile={isMobile}>
+            {currentSlide + 1} / {pictures.length}
+          </CurrentSlide>
+          <Button
+            $isMobile={isMobile}
+            $arrowDirection="right"
+            onClick={nextSlide}
+          >
+            <img
+              src={isMobile ? arrowMobileIcon : arrowDesktopIcon}
+              alt="right"
+            />
+          </Button>
+        </>
+      ) : (
+        <Skeleton variant="image" height={isMobile ? 255 : 415} />
+      )}
     </Root>
   );
 };

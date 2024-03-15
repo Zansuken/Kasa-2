@@ -10,6 +10,7 @@ import { useViewport } from "../hooks/useViewport";
 import { useNavigate } from "react-router-dom";
 import { Routes } from "../router/routes";
 import { useFetchData } from "../hooks/useFetchData";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 const bannerImg = "/home_banner.png";
 
@@ -35,6 +36,7 @@ const CardsContainer = styled.ul<StyledProps>(
 );
 
 const Home: FC = () => {
+  useDocumentTitle("Accueil");
   const { isMobile } = useViewport();
   const navigate = useNavigate();
 

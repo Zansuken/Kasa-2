@@ -88,6 +88,8 @@ const ExpandableBox: FC<PropsWithChildren & Props> = ({
         $isMobile={isMobile}
         $fullWidth={fullWidth}
         onClick={toggleExpanded}
+        onKeyPress={(e: KeyboardEvent) => e.key === "Enter" && toggleExpanded()}
+        tabIndex="0"
       >
         <Label $isMobile={isMobile}>{label}</Label>
         <ArrowIcon

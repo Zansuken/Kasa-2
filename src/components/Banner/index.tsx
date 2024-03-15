@@ -46,7 +46,7 @@ const TextContainer = styled.div<StyledProps>(
 const Image = styled.img<StyledProps & { $maxHeight?: MaxHeight }>(
   ({ theme: { radius }, $isMobile, $maxHeight, $addDarkFilter }) => ({
     width: "100%",
-    height: $maxHeight ? "100%" : $isMobile ? 255 : 415,
+    height: "100%",
     maxHeight: $maxHeight
       ? $isMobile
         ? $maxHeight.mobile

@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { StyledProps } from "../styles/theme";
 import { useViewport } from "../hooks/useViewport";
 import { Routes } from "../router/routes";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 const Container = styled.div<StyledProps>({
   display: "flex",
@@ -43,6 +44,7 @@ const NavLink = styled(BaseNavLink)<StyledProps>(
 );
 
 const NotFound: FC = () => {
+  useDocumentTitle("🤔 404");
   const { isMobile } = useViewport();
 
   return (

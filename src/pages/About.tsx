@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { StyledProps } from "../styles/theme";
 import ExpandableBox from "../components/ExpandableBox";
 import { useViewport } from "../hooks/useViewport";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 const aboutPageBanner = "/about_banner.png";
 
@@ -25,6 +26,7 @@ const AboutItemsContainer = styled.div<StyledProps>(
 );
 
 const About: FC = () => {
+  useDocumentTitle("À propos");
   const { isMobile } = useViewport();
   const { data, loading } = useFetchData<AboutItem[]>(requests.about);
   return (

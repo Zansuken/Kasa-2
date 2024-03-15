@@ -4,9 +4,9 @@ import { useViewport } from "../../hooks/useViewport";
 import { StyledProps } from "../../styles/theme";
 import Skeleton from "../Skeleton";
 
-const Root = styled.div<StyledProps>(
+const Root = styled.a<StyledProps>(
   ({ theme: { radius }, $isMobile, $isClickable }) => ({
-    width: 340,
+    width: $isMobile ? "100%" : 340,
     height: $isMobile ? 255 : 340,
     display: "flex",
     flexDirection: "column",
@@ -33,6 +33,17 @@ const Root = styled.div<StyledProps>(
           },
         }
       : {},
+    "&:focus": {
+      outline: "none",
+      ...($isClickable
+        ? {
+            cursor: "pointer",
+            "& img": {
+              transform: "scale(1.1)",
+            },
+          }
+        : {}),
+    },
   })
 );
 
@@ -94,12 +105,20 @@ const Card: FC<Props> = ({
   }
 
   return (
-    <Root $isMobile={isMobile} $isClickable={isClickable} onClick={onClick}>
-      <Cover $isMobile={isMobile} src={src} alt={title} />
-      <TitleContainer $isMobile={isMobile}>
-        <Title $isMobile={isMobile}>{title}</Title>
-      </TitleContainer>
-    </Root>
+    <li>
+      <Root
+        $isMobile={isMobile}
+        $isClickable={isClickable}
+        onClick={onClick}
+        onKeyPress={(e: KeyboardEvent) => e.key === "Enter" && onClick()}
+        tabIndex="0"
+      >
+        <Cover $isMobile={isMobile} src={src} alt={title} />
+        <TitleContainer $isMobile={isMobile}>
+          <Title $isMobile={isMobile}>{title}</Title>
+        </TitleContainer>
+      </Root>
+    </li>
   );
 };
 

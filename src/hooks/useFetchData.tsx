@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export const useFetchData = <T,>(
   request: (args?: any) => Promise<T>,
-  args: any
+  args?: any
 ) => {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(true);

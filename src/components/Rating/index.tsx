@@ -10,6 +10,7 @@ const plainDesktopStar = "/star_plain_desktop.png";
 
 type Props = {
   value: number;
+  isLoaded: boolean;
 };
 
 const Root = styled.div<StyledProps>(({ theme: { spacing }, $isMobile }) => ({
@@ -29,7 +30,7 @@ const StarContainer = styled.div<StyledProps>(({ $isMobile }) => ({
   justifyContent: "center",
 }));
 
-const Rating: FC<Props> = ({ value = 0 }) => {
+const Rating: FC<Props> = ({ value = 0, isLoaded }) => {
   const { isMobile } = useViewport();
 
   const stars = Array.from({ length: 5 }, (_, i) => {
@@ -40,7 +41,7 @@ const Rating: FC<Props> = ({ value = 0 }) => {
 
     return (
       <StarContainer $isMobile={isMobile} key={`star-${i}`}>
-        <img src={src} alt="star" />
+        <img src={isLoaded ? src : emptyStar} alt="star" />
       </StarContainer>
     );
   });
