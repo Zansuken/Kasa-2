@@ -30,8 +30,8 @@ const Footer: FC = () => {
 
   return (
     <Root $isMobile={isMobile}>
-      <img src={logo} />
-      <p>© 2020 Kasa. All rights reserved</p>
+      <img src={logo} alt="Logo de Kasa" />
+      <h2>© 2020 Kasa. All rights reserved</h2>
     </Root>
   );
 };

@@ -25,7 +25,7 @@ const Header: FC = () => {
 
   return (
     <Root $isMobile={isMobile}>
-      <img src={logo} alt="logo" />
+      <img src={logo} alt="Logo de Kasa" />
       <Navigation />
     </Root>
   );

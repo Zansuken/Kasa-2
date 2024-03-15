@@ -146,7 +146,9 @@ const HousingDetails: FC = () => {
           <Tags>
             {!loading
               ? housing?.tags.map((tag, index) => (
-                  <Tag label={tag} isLoading={loading} key={`tag-${index}`} />
+                  <li key={`tag-${index}`}>
+                    <Tag label={tag} isLoading={loading} />
+                  </li>
                 ))
               : tagsPlaceholder}
           </Tags>

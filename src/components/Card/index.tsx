@@ -113,7 +113,11 @@ const Card: FC<Props> = ({
         onKeyPress={(e: KeyboardEvent) => e.key === "Enter" && onClick()}
         tabIndex="0"
       >
-        <Cover $isMobile={isMobile} src={src} alt={title} />
+        <Cover
+          $isMobile={isMobile}
+          src={src}
+          alt={`Photo de couverture de ${title}`}
+        />
         <TitleContainer $isMobile={isMobile}>
           <Title $isMobile={isMobile}>{title}</Title>
         </TitleContainer>
