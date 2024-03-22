@@ -105,20 +105,24 @@ const Carousel: FC<Props> = ({ pictures, isLoaded }) => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [nextSlide, prevSlide]);
 
+  const canChangePicture = pictures.length > 1;
+
   return (
     <Root $isMobile={isMobile}>
       {isLoaded ? (
         <>
-          <Button
-            $isMobile={isMobile}
-            $arrowDirection="left"
-            onClick={prevSlide}
-          >
-            <img
-              src={isMobile ? arrowMobileIcon : arrowDesktopIcon}
-              alt="left"
-            />
-          </Button>
+          {canChangePicture && (
+            <Button
+              $isMobile={isMobile}
+              $arrowDirection="left"
+              onClick={prevSlide}
+            >
+              <img
+                src={isMobile ? arrowMobileIcon : arrowDesktopIcon}
+                alt="left"
+              />
+            </Button>
+          )}
           <Picture
             $isMobile={isMobile}
             src={pictures[currentSlide]}
@@ -128,16 +132,18 @@ const Carousel: FC<Props> = ({ pictures, isLoaded }) => {
           <CurrentSlide $isMobile={isMobile}>
             {currentSlide + 1} / {pictures.length}
           </CurrentSlide>
-          <Button
-            $isMobile={isMobile}
-            $arrowDirection="right"
-            onClick={nextSlide}
-          >
-            <img
-              src={isMobile ? arrowMobileIcon : arrowDesktopIcon}
-              alt="right"
-            />
-          </Button>
+          {canChangePicture && (
+            <Button
+              $isMobile={isMobile}
+              $arrowDirection="right"
+              onClick={nextSlide}
+            >
+              <img
+                src={isMobile ? arrowMobileIcon : arrowDesktopIcon}
+                alt="right"
+              />
+            </Button>
+          )}
         </>
       ) : (
         <Skeleton variant="image" height={isMobile ? 255 : 415} />
