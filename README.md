@@ -1,25 +1,37 @@
-# Project Name - Kasa (client)
+# Kasa
 
-This is the client repository for the Project Kasa from OpenClassrooms Javascript - React cursus. It is designed to work in conjunction with the server repository.
+A real estate rental browsing platform with property listings, image galleries, and detailed descriptions.
 
-## How to Setup
+<img width="2844" height="1574" alt="Kasa-screenshot" src="https://github.com/user-attachments/assets/33c775b7-3567-4fa9-ba4d-1fc36f5e54e0" />
+<!-- Take a screenshot of the app running locally and add it as screenshot.png -->
 
-To set up the client project, follow these steps:
+## Features
 
-1. Clone the server repository from this [repository](https://github.com/Zansuken/Kasa-2-server).
-2. Follow the instructions in the server repository's README file to set up and run the server.
-3. Clone this client repository to your local machine.
-5. At the root of the project create a `.env` file with the following content:
+- Property listing page with card grid layout
+- Individual property pages with image carousel/gallery
+- Collapsible description and equipment sections
+- Responsive design across mobile, tablet, and desktop
+- REST API integration for property data
 
-   ```env
-   VITE_API_URL = 'http://localhost:3001';
-   ```
-6. Install the necessary dependencies by running the following command in the terminal:
+## Tech
 
-   ```bash
-   npm install
-   ```
-7. To start the client run:
-   ```bash
-   npm run dev
-   ```
+React · TypeScript · Vite · CSS Modules
+
+Companion API: [Kasa-2-server](https://github.com/Zansuken/Kasa-2-server) (Node.js + Express)
+
+## Run locally
+
+```bash
+# Start the API first
+git clone https://github.com/Zansuken/Kasa-2-server.git
+cd Kasa-2-server
+npm install
+npm start
+
+# Then the client
+git clone https://github.com/Zansuken/Kasa-2.git
+cd Kasa-2
+cp .env.example .env  # or create .env with VITE_API_URL=http://localhost:3001
+npm install
+npm run dev
+```
